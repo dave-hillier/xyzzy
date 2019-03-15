@@ -7,7 +7,9 @@ namespace Battleships19.Tests
   public class GameTest
   {
     [Theory]
+    [InlineData("", false)]
     [InlineData("a99", false)]
+    [InlineData("a999999999999999999", false)]
     [InlineData("aa99", false)]
     [InlineData("z1", false)]
     [InlineData("a0", false)]
@@ -25,12 +27,27 @@ namespace Battleships19.Tests
       var input = new StringReader($"{coords}\n");
       Game.Start(input, output);
 
-      var lines = output.ToString().Split("\n");
+      string[] lines = ToLines(output);
 
       if (isValid)
         Assert.DoesNotContain("ERROR", lines[1]);
       else
         Assert.StartsWith("ERROR", lines[1]);
+    }
+
+    private static string[] ToLines(StringWriter output)
+    {
+      return output.ToString().Split("\n");
+    }
+
+    [Fact]
+    public void Can_retry_shots()
+    {
+      var output = new StringWriter();
+      var input = new StringReader($"Z1\nZ2\n");
+      Game.Start(input, output);
+
+      string[] lines = ToLines(output);
     }
   }
 }

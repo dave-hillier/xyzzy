@@ -29,7 +29,7 @@ namespace Battleships19
         return false;
       }
 
-      var row = int.Parse(match.Groups[2].Value) - 1;
+      var row = decimal.Parse(match.Groups[2].Value) - 1;
       if (row < 0 || row >= Game.BoardSize)
       {
         return false;
