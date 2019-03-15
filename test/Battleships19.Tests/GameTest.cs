@@ -38,7 +38,7 @@ namespace Battleships19.Tests
       var lines = RunGame($"Z1\nZ2\n");
 
       Assert.StartsWith("ERROR", lines[1]);
-      Assert.StartsWith("ERROR", lines[2]);
+      Assert.StartsWith("ERROR", lines[3]);
     }
 
     [Fact]
