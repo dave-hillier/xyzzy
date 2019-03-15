@@ -48,6 +48,9 @@ namespace Battleships19.Tests
       Game.Start(input, output);
 
       string[] lines = ToLines(output);
+
+      Assert.StartsWith("ERROR", lines[1]);
+      Assert.StartsWith("ERROR", lines[2]);
     }
   }
 }
