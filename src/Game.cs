@@ -11,19 +11,17 @@ namespace Battleships19
 
     public static void Start(TextReader @in, TextWriter @out)
     {
-      @out.WriteLine("Enter a coordinate to shoot: ");
-
-
+      @out.WriteLine("Enter coordinates: ");
       var input = @in.ReadLine();
       while (input != null)
       {
         bool valid = Coordinates.TryParse(input);
         if (!valid)
           @out.WriteLine("ERROR: Invalid Coordinates");
+
+        @out.WriteLine("Enter coordinates: ");
         input = @in.ReadLine();
       }
     }
-
-
   }
 }

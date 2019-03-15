@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using Xunit;
 
 namespace Battleships19.Tests
@@ -23,11 +24,7 @@ namespace Battleships19.Tests
     [InlineData("J10", true)]
     public void Coordinate_validation(string coords, bool isValid)
     {
-      var output = new StringWriter();
-      var input = new StringReader($"{coords}\n");
-      Game.Start(input, output);
-
-      string[] lines = ToLines(output);
+      var lines = RunGame($"{coords}\n");
 
       if (isValid)
         Assert.DoesNotContain("ERROR", lines[1]);
@@ -35,22 +32,54 @@ namespace Battleships19.Tests
         Assert.StartsWith("ERROR", lines[1]);
     }
 
-    private static string[] ToLines(StringWriter output)
-    {
-      return output.ToString().Split("\n");
-    }
-
     [Fact]
-    public void Can_retry_shots()
+    public void Can_take_multiple_failing_shots()
     {
-      var output = new StringWriter();
-      var input = new StringReader($"Z1\nZ2\n");
-      Game.Start(input, output);
-
-      string[] lines = ToLines(output);
+      var lines = RunGame($"Z1\nZ2\n");
 
       Assert.StartsWith("ERROR", lines[1]);
       Assert.StartsWith("ERROR", lines[2]);
+    }
+
+    [Fact]
+    public void Shoot_all_cells_no_errors()
+    {
+      var input = GenerateAllCoordinates();
+      var lines = RunGame(input.ToString());
+
+      foreach (var line in lines)
+      {
+        Assert.DoesNotContain("ERROR", line);
+      }
+    }
+
+    private static string GenerateAllCoordinates()
+    {
+      var columns = "ABCDEFGHIJ";
+      var rows = 10;
+
+      var input = new StringBuilder();
+      for (var row = 1; row < rows; ++row)
+      {
+        foreach (var column in columns)
+        {
+          input.Append($"{column}{row}\n");
+        }
+      }
+      return input.ToString();
+    }
+
+    private static string[] RunGame(string stringInput)
+    {
+      var output = new StringWriter();
+      var input = new StringReader(stringInput);
+      Game.Start(input, output);
+
+      return ToLines(output);
+    }
+    private static string[] ToLines(StringWriter output)
+    {
+      return output.ToString().Split("\n");
     }
   }
 }
