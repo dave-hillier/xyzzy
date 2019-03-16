@@ -28,9 +28,9 @@ namespace Battleships19.Tests
       var lines = RunGame($"{coords}\n");
 
       if (isValid)
-        Assert.DoesNotContain("ERROR", lines[1]);
+        Assert.DoesNotContain("ERROR", lines[0]);
       else
-        Assert.StartsWith("ERROR", lines[1]);
+        Assert.StartsWith("ERROR", lines[0]);
     }
 
     [Fact]
@@ -38,8 +38,8 @@ namespace Battleships19.Tests
     {
       var lines = RunGame($"Z1\nZ2\n");
 
+      Assert.StartsWith("ERROR", lines[0]);
       Assert.StartsWith("ERROR", lines[1]);
-      Assert.StartsWith("ERROR", lines[3]);
     }
 
     [Fact]
@@ -47,7 +47,7 @@ namespace Battleships19.Tests
     {
       var lines = RunGame($"A1\nA1\n");
 
-      Assert.StartsWith("ERROR", lines[3]);
+      Assert.StartsWith("ERROR", lines[1]);
     }
 
     [Fact]
@@ -61,9 +61,9 @@ namespace Battleships19.Tests
         Assert.DoesNotContain("ERROR", line);
       }
 
+      Assert.Equal(3 + 3 + 4, lines.Count(l => l.Contains("HIT")));
       Assert.Equal(3, lines.Count(l => l.Contains("SINK")));
-      Assert.Equal(10, lines.Count(l => l.Contains("HIT")));
-      Assert.Equal(30, lines.Count(l => l.Contains("MISS")));
+      Assert.Equal(10, lines.Count(l => l.Contains("MISS")));
 
       Assert.Contains("WIN", lines[lines.Count() - 2]);
     }
@@ -74,9 +74,9 @@ namespace Battleships19.Tests
       var rows = 10;
 
       var input = new StringBuilder();
-      for (var row = 1; row < rows; ++row)
+      foreach (var column in columns)
       {
-        foreach (var column in columns)
+        for (var row = 1; row < rows; ++row)
         {
           input.Append($"{column}{row}\n");
         }
@@ -88,8 +88,9 @@ namespace Battleships19.Tests
     {
       var output = new StringWriter();
       var input = new StringReader(stringInput);
+      Game.ShipPositions = FixedShipPositions.Generate();
       Game.Start(input, output);
-      return ToLines(output);
+      return ToLines(output).Where(l => !l.Contains("Enter")).ToArray();
     }
     private static string[] ToLines(StringWriter output)
     {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Battleships19.Battleships19.Tests")]
+[assembly: InternalsVisibleTo("Battleships19.Tests")]
 
 namespace Battleships19
 {
@@ -17,42 +17,52 @@ namespace Battleships19
   public class Game
   {
     public const int BoardSize = 10;
+    private const string ErrorInvalidCoordinates = "ERROR: Invalid Coordinates";
+    private const string ErrorAlreadyTargetted = "ERROR: You've already targetted these coordinates";
+    private const string WinAllShipsSunk = "WIN: All Ships Sunk!";
+    public static List<HashSet<string>> ShipPositions { get; set; } = FixedShipPositions.Generate();
+
     public static void Start(TextReader @in, TextWriter @out)
     {
       var shotsTaken = new HashSet<string>();
-      List<HashSet<string>> shipPositions = FixedShipPositions.Generate();
 
-      @out.WriteLine("Enter coordinates: ");
-      var input = @in.ReadLine();
+      var input = ReadCoordinates(@in, @out);
       while (input != null)
       {
         bool valid = Coordinates.TryParse(input);
         if (!valid)
-          @out.WriteLine("ERROR: Invalid Coordinates");
+        {
+          @out.WriteLine(ErrorInvalidCoordinates);
+        }
         else
         {
           input = input.ToUpper();
           if (shotsTaken.Contains(input))
           {
-            @out.WriteLine("ERROR: Already taken");
+            @out.WriteLine(ErrorAlreadyTargetted);
           }
           else
           {
             shotsTaken.Add(input);
-            var result = TakeShot(shipPositions, input);
+            var result = TakeShot(ShipPositions, input);
             @out.WriteLine(result.ToString().ToUpper());
 
-            if (shipPositions.All(cell => cell.Count == 0))
+            if (ShipPositions.All(cell => cell.Count == 0))
             {
-              @out.WriteLine("WIN");
+              @out.WriteLine(WinAllShipsSunk);
               break;
             }
           }
         }
 
-        @out.WriteLine("Enter coordinates: ");
-        input = @in.ReadLine();
+        input = ReadCoordinates(@in, @out);
       }
+    }
+
+    private static string ReadCoordinates(TextReader @in, TextWriter @out)
+    {
+      @out.WriteLine("Enter coordinates: ");
+      return @in.ReadLine();
     }
 
     private static ShotResult TakeShot(List<HashSet<string>> shipPositions, string input)
