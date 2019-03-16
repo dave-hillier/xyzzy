@@ -42,7 +42,7 @@ namespace Battleships19
             var result = TakeShot(shipPositions, input);
             @out.WriteLine(result.ToString().ToUpper());
 
-            if (AllSunk(shipPositions))
+            if (shipPositions.All(cell => cell.Count == 0))
             {
               @out.WriteLine("WIN");
               break;
@@ -65,11 +65,6 @@ namespace Battleships19
     {
       var hit = ship.Remove(input);
       return hit ? (ship.Count() == 0 ? ShotResult.Sink : ShotResult.Hit) : ShotResult.Miss;
-    }
-
-    private static bool AllSunk(List<HashSet<string>> shipPositions)
-    {
-      return shipPositions.All(cell => cell.Count == 0);
     }
   }
 }
