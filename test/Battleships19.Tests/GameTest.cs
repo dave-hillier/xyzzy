@@ -60,8 +60,9 @@ namespace Battleships19.Tests
       {
         Assert.DoesNotContain("ERROR", line);
       }
-      Assert.Contains("HIT", lines);
-      Assert.Contains("SINK", lines); // TODO: Multiple sinks
+      Assert.Equal(10, lines.Count(l => l.Contains("HIT")));
+      Assert.Equal(3, lines.Count(l => l.Contains("SINK")));
+      Assert.Equal(30, lines.Count(l => l.Contains("MISS")));
 
       Assert.Contains("WIN", lines[lines.Count() - 2]);
     }
@@ -88,7 +89,6 @@ namespace Battleships19.Tests
       var output = new StringWriter();
       var input = new StringReader(stringInput);
       Game.Start(input, output);
-
       return ToLines(output);
     }
     private static string[] ToLines(StringWriter output)

@@ -50,14 +50,21 @@ namespace Battleships19
           }
           else
           {
-            shotsTaken.Add(input);
 
+            shotsTaken.Add(input);
+            bool miss = true;
             foreach (var ship in shipPositions)
             {
               ShotResult result = ProcessShot(input, ship);
               if (result != ShotResult.Miss)
+              {
+                miss = false;
                 @out.WriteLine(result.ToString().ToUpper());
+              }
             }
+            if (miss)
+              @out.WriteLine("MISS");
+
             if (AllSunk(shipPositions))
             {
               @out.WriteLine("WIN");
