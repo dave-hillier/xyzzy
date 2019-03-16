@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Battleships19.Battleships19.Tests")]
+[assembly: InternalsVisibleTo("Battleships19.Tests")]
 
 namespace Battleships19
 {

@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Battleships19.Tests")]
 
 namespace Battleships19
 {

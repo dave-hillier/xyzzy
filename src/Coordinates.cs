@@ -1,8 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-[assembly: InternalsVisibleTo("Battleships19.Battleships19.Tests")]
-
 namespace Battleships19
 {
   public class Coordinates
