@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,11 +10,6 @@ namespace Battleships19
   public class Game
   {
     public const int BoardSize = 10;
-    public int[] ShipSizes = new[] { 5, 4, 4 };
-    private static Random rng = new Random();
-    public Func<string> NextOrientation = () => rng.Next(0, 2) == 1 ? "h" : "v";
-    public Func<(int, int)> NextCoordinates = () => (rng.Next(0, BoardSize), rng.Next(0, BoardSize));
-
     public static void Start(TextReader @in, TextWriter @out)
     {
       var shotsTaken = new HashSet<string>();
@@ -43,17 +37,9 @@ namespace Battleships19
             shotsTaken.Add(input);
             foreach (var ship in shipPositions)
             {
-              var hit = ship.Remove(input.ToUpper());
-              if (hit)
-              {
-                @out.WriteLine("HIT");
-                if (ship.Count() == 0)
-                {
-                  @out.WriteLine("SINK");
-                }
-              }
+              ProcessShot(@out, input, ship);
             }
-            if (shipPositions.All(s => !s.Any()))
+            if (AllSunk(shipPositions))
             {
               @out.WriteLine("WIN");
               break;
@@ -61,10 +47,27 @@ namespace Battleships19
           }
         }
 
-
         @out.WriteLine("Enter coordinates: ");
         input = @in.ReadLine();
       }
+    }
+
+    private static void ProcessShot(TextWriter @out, string input, HashSet<string> ship)
+    {
+      var hit = ship.Remove(input.ToUpper());
+      if (hit)
+      {
+        @out.WriteLine("HIT");
+        if (ship.Count() == 0)
+        {
+          @out.WriteLine("SINK");
+        }
+      }
+    }
+
+    private static bool AllSunk(List<HashSet<string>> shipPositions)
+    {
+      return shipPositions.All(s => !s.Any());
     }
   }
 }
