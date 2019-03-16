@@ -7,11 +7,6 @@ namespace Battleships19
 {
   class RandomShipPosition
   {
-    enum Orientation
-    {
-      Horizontal,
-      Vertical
-    }
     public static List<int> Lengths = new List<int> { 5, 4, 4 };
     private const string columns = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static Random rng = new Random();
@@ -42,25 +37,24 @@ namespace Battleships19
     public static List<HashSet<string>> Generate()
     {
       var result = new List<HashSet<string>>();
-
       foreach (var length in Lengths)
       {
         HashSet<string> ship;
         do
         {
           ship = GenerateShip(length);
-        } while (result.Any(s => s.Intersect(ship).Any()));
+        } while (result.Any(s => s.Intersect(ship).Any())); // TODO: iteration limit
         result.Add(ship);
       }
-
       return result;
     }
 
     private static HashSet<string> GenerateShip(int length)
     {
       var cooridnates = NextCoordinates();
-      var next = NextOrientation();
-      return next ? Horizontal(cooridnates, length) : Vertical(cooridnates, length);
+      return NextOrientation() ?
+        Horizontal((cooridnates.column, cooridnates.row % (Game.BoardSize - length)), length) :
+        Vertical((cooridnates.column % (Game.BoardSize - length), cooridnates.row), length);
     }
   }
 }

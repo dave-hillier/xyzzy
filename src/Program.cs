@@ -9,6 +9,7 @@ namespace Battleships19
   {
     static void Main(string[] args)
     {
+      Game.ShipPositions = RandomShipPosition.Generate();
       Game.Start(Console.In, Console.Out);
     }
   }

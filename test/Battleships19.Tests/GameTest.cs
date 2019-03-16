@@ -68,6 +68,24 @@ namespace Battleships19.Tests
       Assert.Contains("WIN", lines[lines.Count() - 2]);
     }
 
+    [Fact]
+    public void Random_ship_positions()
+    {
+      Game.ShipPositions = RandomShipPosition.Generate();
+      var input = GenerateAllCoordinates();
+      var lines = RunGame(input.ToString());
+
+      foreach (var line in lines)
+      {
+        Assert.DoesNotContain("ERROR", line);
+      }
+
+      Assert.Equal(3 + 3 + 4, lines.Count(l => l.Contains("HIT")));
+      Assert.Equal(3, lines.Count(l => l.Contains("SINK")));
+
+      Assert.Contains("WIN", lines[lines.Count() - 2]);
+    }
+
     private static string GenerateAllCoordinates()
     {
       var columns = "ABCDEFGHIJ";
