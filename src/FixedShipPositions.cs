@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Battleships19.Battleships19.Tests")]
 
 namespace Battleships19
 {
-  class TestShipPositions
+  class FixedShipPositions
   {
     public static List<HashSet<string>> Generate()
     {

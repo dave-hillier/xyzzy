@@ -20,7 +20,7 @@ namespace Battleships19
     public static void Start(TextReader @in, TextWriter @out)
     {
       var shotsTaken = new HashSet<string>();
-      List<HashSet<string>> shipPositions = TestShipPositions.Generate();
+      List<HashSet<string>> shipPositions = FixedShipPositions.Generate();
 
       @out.WriteLine("Enter coordinates: ");
       var input = @in.ReadLine();
