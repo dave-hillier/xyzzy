@@ -9,8 +9,8 @@ namespace Battleships19
 {
   enum ShotResult
   {
-    Hit,
     Miss,
+    Hit,
     Sink
   }
 
@@ -38,20 +38,9 @@ namespace Battleships19
           }
           else
           {
-
             shotsTaken.Add(input);
-            bool miss = true;
-            foreach (var ship in shipPositions)
-            {
-              ShotResult result = ProcessShot(input, ship);
-              if (result != ShotResult.Miss)
-              {
-                miss = false;
-                @out.WriteLine(result.ToString().ToUpper());
-              }
-            }
-            if (miss)
-              @out.WriteLine("MISS");
+            var result = TakeShot(shipPositions, input);
+            @out.WriteLine(result.ToString().ToUpper());
 
             if (AllSunk(shipPositions))
             {
@@ -64,6 +53,12 @@ namespace Battleships19
         @out.WriteLine("Enter coordinates: ");
         input = @in.ReadLine();
       }
+    }
+
+    private static ShotResult TakeShot(List<HashSet<string>> shipPositions, string input)
+    {
+      var results = shipPositions.Select(ship => ProcessShot(input, ship));
+      return results.FirstOrDefault(shot => shot != ShotResult.Miss);
     }
 
     private static ShotResult ProcessShot(string input, HashSet<string> ship)
