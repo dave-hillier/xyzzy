@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Xunit;
 
@@ -42,6 +43,14 @@ namespace Battleships19.Tests
     }
 
     [Fact]
+    public void Same_coordiates()
+    {
+      var lines = RunGame($"A1\nA1\n");
+
+      Assert.StartsWith("ERROR", lines[4]);
+    }
+
+    [Fact]
     public void Shoot_all_cells_no_errors()
     {
       var input = GenerateAllCoordinates();
@@ -51,7 +60,12 @@ namespace Battleships19.Tests
       {
         Assert.DoesNotContain("ERROR", line);
       }
+      Assert.Contains("HIT", lines);
+      Assert.Contains("SINK", lines); // TODO: Multiple sinks
+
+      Assert.Contains("WIN", lines.Last());
     }
+
 
     private static string GenerateAllCoordinates()
     {
