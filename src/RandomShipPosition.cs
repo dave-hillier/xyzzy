@@ -17,7 +17,7 @@ namespace Battleships19
     {
       return Enumerable.
         Range(0, length).
-        Select(x => $"{columns[coord.column + x]}{1 + coord.row}").
+        Select(x => ToString(coord.column, coord.row + x)).
         ToHashSet();
     }
 
@@ -25,18 +25,21 @@ namespace Battleships19
     {
       return Enumerable.
         Range(0, length).
-        Select(x => $"{columns[coord.column]}{1 + coord.row + x}").
+        Select(x => ToString(coord.column + x, coord.row)).
         ToHashSet();
+    }
+
+    private static string ToString(int column, int row)
+    {
+      return $"{columns[column]}{1 + row}";
     }
 
     public static List<HashSet<string>> Generate()
     {
       return Lengths.Select(l =>
       {
-        var o = NextOrientation();
         var c = NextCoordinates();
-
-        return o == "h" ? Horizontal(c, l) : Vertical(c, l);
+        return NextOrientation() == "h" ? Horizontal(c, l) : Vertical(c, l);
       }).ToList();
     }
   }

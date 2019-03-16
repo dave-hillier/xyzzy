@@ -19,7 +19,7 @@ namespace Battleships19.Tests
       RandomShipPosition.NextCoordinates = () => PopFirst(startPositions);
       RandomShipPosition.Lengths = new List<int> { 5 };
       var positions = RandomShipPosition.Generate();
-      Assert.Equal(positions.First(), new[] { "A1", "B1", "C1", "D1", "E1" });
+      Assert.Equal(new[] { "A1", "A2", "A3", "A4", "A5" }, positions.First());
     }
 
     [Fact]
@@ -29,7 +29,7 @@ namespace Battleships19.Tests
       RandomShipPosition.NextCoordinates = () => PopFirst(startPositions);
       RandomShipPosition.Lengths = new List<int> { 5 };
       var positions = RandomShipPosition.Generate();
-      Assert.Equal(positions.First(), new[] { "A1", "A2", "A3", "A4", "A5" });
+      Assert.Equal(new[] { "A1", "B1", "C1", "D1", "E1" }, positions.First());
     }
 
     private T PopFirst<T>(List<T> list)
