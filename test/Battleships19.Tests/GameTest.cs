@@ -60,13 +60,13 @@ namespace Battleships19.Tests
       {
         Assert.DoesNotContain("ERROR", line);
       }
-      Assert.Equal(10, lines.Count(l => l.Contains("HIT")));
+
       Assert.Equal(3, lines.Count(l => l.Contains("SINK")));
+      Assert.Equal(10, lines.Count(l => l.Contains("HIT")));
       Assert.Equal(30, lines.Count(l => l.Contains("MISS")));
 
       Assert.Contains("WIN", lines[lines.Count() - 2]);
     }
-
 
     private static string GenerateAllCoordinates()
     {
