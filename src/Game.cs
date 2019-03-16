@@ -15,8 +15,8 @@ namespace Battleships19
       var shotsTaken = new HashSet<string>();
       var shipPositions = new List<HashSet<string>> {
         new HashSet<string> { "A1" },
-        new HashSet<string> { "A2" },
-        new HashSet<string> { "A3" },
+        new HashSet<string> { "B1" },
+        new HashSet<string> { "C1" },
       };
 
       @out.WriteLine("Enter coordinates: ");
@@ -37,7 +37,7 @@ namespace Battleships19
             shotsTaken.Add(input);
             foreach (var ship in shipPositions)
             {
-              ProcessShot(@out, input, ship);
+              ProcessShotOnShip(@out, input, ship);
             }
             if (AllSunk(shipPositions))
             {
@@ -52,7 +52,7 @@ namespace Battleships19
       }
     }
 
-    private static void ProcessShot(TextWriter @out, string input, HashSet<string> ship)
+    private static void ProcessShotOnShip(TextWriter @out, string input, HashSet<string> ship)
     {
       var hit = ship.Remove(input.ToUpper());
       if (hit)
@@ -67,7 +67,7 @@ namespace Battleships19
 
     private static bool AllSunk(List<HashSet<string>> shipPositions)
     {
-      return shipPositions.All(s => !s.Any());
+      return shipPositions.All(cell => cell.Count == 0);
     }
   }
 }

@@ -51,7 +51,7 @@ namespace Battleships19.Tests
     }
 
     [Fact]
-    public void Shoot_all_cells_no_errors()
+    public void Shoot_all_cells()
     {
       var input = GenerateAllCoordinates();
       var lines = RunGame(input.ToString());
@@ -63,7 +63,7 @@ namespace Battleships19.Tests
       Assert.Contains("HIT", lines);
       Assert.Contains("SINK", lines); // TODO: Multiple sinks
 
-      Assert.Contains("WIN", lines.Last());
+      Assert.Contains("WIN", lines[lines.Count() - 2]);
     }
 
 
