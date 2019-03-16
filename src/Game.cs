@@ -7,17 +7,32 @@ using System.Runtime.CompilerServices;
 
 namespace Battleships19
 {
+  class TestShipPositions
+  {
+    public static List<HashSet<string>> Generate()
+    {
+      return new List<HashSet<string>> {
+        new HashSet<string> { "A1", "A2", "A3", "A4" },
+        new HashSet<string> { "B1", "B2", "B3", "B4" },
+        new HashSet<string> { "C1", "C2", "C3", "C4", "C5" },
+      };
+    }
+  }
+
+  enum ShotResult
+  {
+    Hit,
+    Miss,
+    Sink
+  }
+
   public class Game
   {
     public const int BoardSize = 10;
     public static void Start(TextReader @in, TextWriter @out)
     {
       var shotsTaken = new HashSet<string>();
-      var shipPositions = new List<HashSet<string>> {
-        new HashSet<string> { "A1", "A2", "A3", "A4" },
-        new HashSet<string> { "B1", "B2", "B3", "B4" },
-        new HashSet<string> { "C1", "C2", "C3", "C4", "C5" },
-      };
+      List<HashSet<string>> shipPositions = TestShipPositions.Generate();
 
       @out.WriteLine("Enter coordinates: ");
       var input = @in.ReadLine();
@@ -28,6 +43,7 @@ namespace Battleships19
           @out.WriteLine("ERROR: Invalid Coordinates");
         else
         {
+          input = input.ToUpper();
           if (shotsTaken.Contains(input))
           {
             @out.WriteLine("ERROR: Already taken");
@@ -35,9 +51,12 @@ namespace Battleships19
           else
           {
             shotsTaken.Add(input);
+
             foreach (var ship in shipPositions)
             {
-              ProcessShotOnShip(@out, input, ship);
+              ShotResult result = ProcessShot(input, ship);
+              if (result != ShotResult.Miss)
+                @out.WriteLine(result.ToString().ToUpper());
             }
             if (AllSunk(shipPositions))
             {
@@ -52,17 +71,10 @@ namespace Battleships19
       }
     }
 
-    private static void ProcessShotOnShip(TextWriter @out, string input, HashSet<string> ship)
+    private static ShotResult ProcessShot(string input, HashSet<string> ship)
     {
-      var hit = ship.Remove(input.ToUpper());
-      if (hit)
-      {
-        @out.WriteLine("HIT");
-        if (ship.Count() == 0)
-        {
-          @out.WriteLine("SINK");
-        }
-      }
+      var hit = ship.Remove(input);
+      return hit ? (ship.Count() == 0 ? ShotResult.Sink : ShotResult.Hit) : ShotResult.Miss;
     }
 
     private static bool AllSunk(List<HashSet<string>> shipPositions)
