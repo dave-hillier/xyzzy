@@ -14,9 +14,9 @@ namespace Battleships19
     {
       var shotsTaken = new HashSet<string>();
       var shipPositions = new List<HashSet<string>> {
-        new HashSet<string> { "A1" },
-        new HashSet<string> { "B1" },
-        new HashSet<string> { "C1" },
+        new HashSet<string> { "A1", "A2", "A3", "A4" },
+        new HashSet<string> { "B1", "B2", "B3", "B4" },
+        new HashSet<string> { "C1", "C2", "C3", "C4", "C5" },
       };
 
       @out.WriteLine("Enter coordinates: ");
