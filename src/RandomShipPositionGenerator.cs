@@ -5,15 +5,21 @@ using System.Runtime.CompilerServices;
 
 namespace Battleships19
 {
-  class RandomShipPosition
+  class RandomShipPositionGenerator
   {
-    public static List<int> Lengths = new List<int> { 5, 4, 4 };
     private const string columns = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static Random rng = new Random();
-    public static Func<bool> NextOrientation = () => rng.Next(0, 2) == 1;
-    public static Func<(int column, int row)> NextCoordinates = () => (rng.Next(0, Game.BoardSize), rng.Next(0, Game.BoardSize));
+    internal Func<bool> NextOrientation = () => rng.Next(0, 2) == 1; // Internal for tests
+    public int BoardSize { get; set; }
+    internal Func<(int column, int row)> NextCoordinates; // Internal for tests
 
-    private static HashSet<string> Horizontal((int column, int row) coord, int length)
+    public RandomShipPositionGenerator(int boardSize)
+    {
+      BoardSize = boardSize;
+      NextCoordinates = () => (rng.Next(0, BoardSize), rng.Next(0, BoardSize));
+    }
+
+    private static HashSet<string> Vertical((int column, int row) coord, int length)
     {
       return Enumerable.
         Range(0, length).
@@ -21,7 +27,7 @@ namespace Battleships19
         ToHashSet();
     }
 
-    private static HashSet<string> Vertical((int column, int row) coord, int length)
+    private static HashSet<string> Horizontal((int column, int row) coord, int length)
     {
       return Enumerable.
         Range(0, length).
@@ -34,10 +40,10 @@ namespace Battleships19
       return $"{columns[column]}{1 + row}";
     }
 
-    public static List<HashSet<string>> Generate()
+    public List<HashSet<string>> Generate(List<int> shipLengths)
     {
       var result = new List<HashSet<string>>();
-      foreach (var length in Lengths)
+      foreach (var length in shipLengths)
       {
         HashSet<string> ship;
         do
@@ -49,12 +55,12 @@ namespace Battleships19
       return result;
     }
 
-    private static HashSet<string> GenerateShip(int length)
+    private HashSet<string> GenerateShip(int length)
     {
       var cooridnates = NextCoordinates();
       return NextOrientation() ?
-        Horizontal((cooridnates.column, cooridnates.row % (Game.BoardSize - length)), length) :
-        Vertical((cooridnates.column % (Game.BoardSize - length), cooridnates.row), length);
+        Vertical((cooridnates.column, cooridnates.row % (BoardSize - length)), length) :
+        Horizontal((cooridnates.column % (BoardSize - length), cooridnates.row), length);
     }
   }
 }

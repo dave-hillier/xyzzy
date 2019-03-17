@@ -15,20 +15,26 @@ namespace Battleships19
 
   public class Game
   {
-    public const int BoardSize = 10;
+    public int BoardSize { get; set; } = 10;
+    public List<HashSet<string>> ShipPositions { get; }
+
+    public Game(List<HashSet<string>> shipPositions)
+    {
+      ShipPositions = shipPositions;
+    }
+
     private const string ErrorInvalidCoordinates = "ERROR: Invalid Coordinates";
     private const string ErrorAlreadyTargetted = "ERROR: You've already targetted these coordinates";
     private const string WinAllShipsSunk = "WIN: All Ships Sunk!";
-    public static List<HashSet<string>> ShipPositions { get; set; } = FixedShipPositions.Generate();
 
-    public static void Start(TextReader @in, TextWriter @out)
+    public void Start(TextReader @in, TextWriter @out)
     {
       var shotsTaken = new HashSet<string>();
 
       var input = ReadCoordinates(@in, @out);
       while (input != null)
       {
-        bool valid = Coordinates.TryParse(input);
+        bool valid = Coordinates.TryParse(input, BoardSize);
         if (!valid)
         {
           @out.WriteLine(ErrorInvalidCoordinates);
@@ -72,8 +78,9 @@ namespace Battleships19
 
     private static ShotResult ProcessShot(string input, HashSet<string> ship)
     {
-      var hit = ship.Remove(input);
-      return hit ? (ship.Count() == 0 ? ShotResult.Sink : ShotResult.Hit) : ShotResult.Miss;
+      return ship.Remove(input) ?
+        (ship.Count() == 0 ? ShotResult.Sink : ShotResult.Hit) :
+        ShotResult.Miss;
     }
   }
 }

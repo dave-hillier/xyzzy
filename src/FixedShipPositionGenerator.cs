@@ -3,9 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace Battleships19
 {
-  class FixedShipPositions
+  class FixedShipPositionGenerator
   {
-    public static List<HashSet<string>> Generate()
+    public List<HashSet<string>> Generate(List<int> shipLengths)
     {
       return new List<HashSet<string>> {
         new HashSet<string> { "A1", "A2", "A3", "A4" },

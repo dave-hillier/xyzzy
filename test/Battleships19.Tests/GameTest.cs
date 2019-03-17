@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace Battleships19.Tests
 {
   public class GameTest
   {
+    private List<HashSet<string>> positions = new FixedShipPositionGenerator().Generate(new List<int> { });
+
     [Theory]
     [InlineData("", false)]
     [InlineData("a99", false)]
@@ -25,7 +28,9 @@ namespace Battleships19.Tests
     [InlineData("J10", true)]
     public void Coordinate_validation(string coords, bool isValid)
     {
-      var lines = RunGame($"{coords}\n");
+      var game = new Game(positions);
+
+      var lines = RunGame(game, $"{coords}\n");
 
       if (isValid)
         Assert.DoesNotContain("ERROR", lines[0]);
@@ -36,7 +41,9 @@ namespace Battleships19.Tests
     [Fact]
     public void Can_take_multiple_failing_shots()
     {
-      var lines = RunGame($"Z1\nZ2\n");
+      var game = new Game(positions);
+
+      var lines = RunGame(game, $"Z1\nZ2\n");
 
       Assert.StartsWith("ERROR", lines[0]);
       Assert.StartsWith("ERROR", lines[1]);
@@ -45,7 +52,9 @@ namespace Battleships19.Tests
     [Fact]
     public void Same_coordiates()
     {
-      var lines = RunGame($"A1\nA1\n");
+      var game = new Game(positions);
+
+      var lines = RunGame(game, $"A1\nA1\n");
 
       Assert.StartsWith("ERROR", lines[1]);
     }
@@ -53,27 +62,22 @@ namespace Battleships19.Tests
     [Fact]
     public void Shoot_all_cells()
     {
-      var input = GenerateAllCoordinates();
-      var lines = RunGame(input.ToString());
-
-      foreach (var line in lines)
-      {
-        Assert.DoesNotContain("ERROR", line);
-      }
-
-      Assert.Equal(3 + 3 + 4, lines.Count(l => l.Contains("HIT")));
-      Assert.Equal(3, lines.Count(l => l.Contains("SINK")));
-      Assert.Equal(10, lines.Count(l => l.Contains("MISS")));
-
-      Assert.Contains("WIN", lines[lines.Count() - 2]);
+      RunFullGame(positions);
     }
 
     [Fact]
     public void Random_ship_positions()
     {
-      Game.ShipPositions = RandomShipPosition.Generate();
+      var positionGenerator = new RandomShipPositionGenerator(10);
+      RunFullGame(positionGenerator.Generate(new List<int> { 5, 4, 4 }));
+    }
+
+    private void RunFullGame(List<HashSet<string>> positions)
+    {
+      var game = new Game(positions);
       var input = GenerateAllCoordinates();
-      var lines = RunGame(input.ToString());
+
+      var lines = RunGame(game, input.ToString());
 
       foreach (var line in lines)
       {
@@ -94,7 +98,7 @@ namespace Battleships19.Tests
       var input = new StringBuilder();
       foreach (var column in columns)
       {
-        for (var row = 1; row < rows; ++row)
+        for (var row = 1; row <= rows; ++row)
         {
           input.Append($"{column}{row}\n");
         }
@@ -102,12 +106,13 @@ namespace Battleships19.Tests
       return input.ToString();
     }
 
-    private static string[] RunGame(string stringInput)
+    private static string[] RunGame(Game game, string stringInput)
     {
       var output = new StringWriter();
       var input = new StringReader(stringInput);
-      Game.ShipPositions = FixedShipPositions.Generate();
-      Game.Start(input, output);
+
+
+      game.Start(input, output);
       return ToLines(output).Where(l => !l.Contains("Enter")).ToArray();
     }
     private static string[] ToLines(StringWriter output)
