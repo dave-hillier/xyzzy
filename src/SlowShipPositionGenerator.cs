@@ -26,39 +26,54 @@ namespace Battleships19
         var allPossiblePositions = new List<HashSet<string>>();
         foreach (var ship in result)
         {
-          allPossiblePositions = allPossiblePositions.Where(place => !place.Intersect(ship).Any()).ToList();
+          allPossiblePositions = RemoveTakenPositions(allPossiblePositions, ship);
         }
 
         for (int row = 0; row < boardSize; ++row)
         {
+          for (int column = 0; column < boardSize - length.Key - 1; ++column)
+          {
+            var horizontalShip = ShipFactory.Horizontal((column, row), length.Key);
+            PlaceShipIfSpace(result, allPossiblePositions, horizontalShip);
+          }
+        }
+
+        for (int row = 0; row < boardSize - length.Key - 1; ++row)
+        {
           for (int column = 0; column < boardSize; ++column)
           {
-            if (column < boardSize - length.Key - 1)
-            {
-              var horizontalShip = ShipFactory.Horizontal((column, row), length.Key);
-              if (result.All(place => !place.Intersect(horizontalShip).Any()))
-                allPossiblePositions.Add(horizontalShip);
-            }
-
-            if (row < boardSize - length.Key - 1)
-            {
-              var verticalShip = ShipFactory.Vertical((column, row), length.Key);
-              if (result.All(place => !place.Intersect(verticalShip).Any()))
-                allPossiblePositions.Add(verticalShip);
-            }
+            var verticalShip = ShipFactory.Vertical((column, row), length.Key);
+            PlaceShipIfSpace(result, allPossiblePositions, verticalShip);
           }
         }
 
         foreach (var _ in length)
         {
+          if (allPossiblePositions.Count == 0)
+          {
+            throw new Exception("No remaining ship positions");
+          }
           int index = rng.Next(0, allPossiblePositions.Count); // TODO: run out of picks?
           var randomPick = allPossiblePositions[index];
           result.Add(randomPick);
-          allPossiblePositions = allPossiblePositions.Where(place => !place.Intersect(randomPick).Any()).ToList();
+          allPossiblePositions = RemoveTakenPositions(allPossiblePositions, randomPick);
         }
       }
-
       return result;
+    }
+
+    private static List<HashSet<string>> RemoveTakenPositions(List<HashSet<string>> allPossiblePositions, HashSet<string> randomPick)
+    {
+      return allPossiblePositions.Where(place => !place.Intersect(randomPick).Any()).ToList();
+    }
+
+    private static void PlaceShipIfSpace(
+      List<HashSet<string>> result,
+      List<HashSet<string>> allPossiblePositions,
+      HashSet<string> horizontalShip)
+    {
+      if (result.All(place => !place.Intersect(horizontalShip).Any()))
+        allPossiblePositions.Add(horizontalShip);
     }
   }
 }

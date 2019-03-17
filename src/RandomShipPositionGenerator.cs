@@ -19,20 +19,20 @@ namespace Battleships19
       NextCoordinates = () => (rng.Next(0, BoardSize), rng.Next(0, BoardSize));
     }
 
-
-
-
     public List<HashSet<string>> Generate(List<int> shipLengths)
     {
+      var iterationLimit = 100;
       var result = new List<HashSet<string>>();
       foreach (var length in shipLengths)
       {
-        HashSet<string> ship;
+        HashSet<string> newShip;
         do
         {
-          ship = GenerateShip(length);
-        } while (result.Any(s => s.Intersect(ship).Any())); // TODO: iteration limit
-        result.Add(ship);
+          if (--iterationLimit == 0)
+            throw new Exception("Could not place ship; iteration limit exceeded.");
+          newShip = GenerateShip(length);
+        } while (result.Any(ship => ship.Intersect(newShip).Any()));
+        result.Add(newShip);
       }
       return result;
     }

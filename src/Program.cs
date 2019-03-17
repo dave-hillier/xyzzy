@@ -8,13 +8,17 @@ namespace Battleships19
 {
   class Program
   {
+    private const int BoardSize = 10;
+
     static void Main(string[] args)
     {
-      var positionGenerator = new RandomShipPositionGenerator(10);
+      var positionGenerator = new SlowShipPositionGenerator(BoardSize);
       var shipLengths = new List<int> { 5, 4, 4 };
-      var shipPositions = positionGenerator.Generate(shipLengths);
-      var game = new Game(shipPositions);
 
+      var shipPositions = positionGenerator.Generate(shipLengths);
+      Grid.Write(shipPositions, BoardSize);
+
+      var game = new Game(shipPositions);
       game.Start(Console.In, Console.Out);
     }
   }
