@@ -7,7 +7,7 @@ namespace Battleships19
 {
   class Grid
   {
-    public static void Write(List<HashSet<string>> shipPositions, int gridSize)
+    public static void Write(List<List<string>> shipPositions, int gridSize)
     {
       WriteShipPositions(shipPositions);
 
@@ -32,7 +32,7 @@ namespace Battleships19
       Console.WriteLine();
     }
 
-    private static Dictionary<string, int> CellIndexes(List<HashSet<string>> shipPositions)
+    private static Dictionary<string, int> CellIndexes(List<List<string>> shipPositions)
     {
       var shipIndex = shipPositions.Select((ship, index) => new { ship, index });
       var dict = (from cells in shipIndex
@@ -41,7 +41,7 @@ namespace Battleships19
       return dict;
     }
 
-    private static void WriteShipPositions(List<HashSet<string>> shipPositions)
+    private static void WriteShipPositions(List<List<string>> shipPositions)
     {
       foreach (var ship in shipPositions)
       {

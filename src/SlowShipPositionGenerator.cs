@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Battleships19
@@ -14,66 +15,49 @@ namespace Battleships19
       this.boardSize = boardSize;
     }
 
-    public List<HashSet<string>> Generate(List<int> shipLengths)
+    public List<List<string>> Generate(IEnumerable<int> shipLengths)
     {
-      shipLengths.Sort();
-      shipLengths.Reverse();
-
-      var distinctLengths = shipLengths.GroupBy(l => l);
-      var result = new List<HashSet<string>>();
-      foreach (var length in distinctLengths)
+      var distinctLengths = shipLengths.OrderByDescending(k => k).GroupBy(l => l);
+      var result = new List<List<string>>();
+      foreach (var lengthGroup in distinctLengths)
       {
-        var allPossiblePositions = new List<HashSet<string>>();
-        foreach (var ship in result)
-        {
-          allPossiblePositions = RemoveTakenPositions(allPossiblePositions, ship);
-        }
+        int length = lengthGroup.Key;
+        var horizontalShips = from row in Enumerable.Range(0, boardSize)
+                              from column in Enumerable.Range(0, boardSize - (length - 1))
+                              select ShipFactory.Horizontal((column: column, row: row), length);
 
-        for (int row = 0; row < boardSize; ++row)
-        {
-          for (int column = 0; column < boardSize - length.Key - 1; ++column)
-          {
-            var horizontalShip = ShipFactory.Horizontal((column, row), length.Key);
-            PlaceShipIfSpace(result, allPossiblePositions, horizontalShip);
-          }
-        }
+        var verticalShips = from row in Enumerable.Range(0, boardSize - (length - 1))
+                            from column in Enumerable.Range(0, boardSize)
+                            select ShipFactory.Vertical((column: column, row: row), length);
 
-        for (int row = 0; row < boardSize - length.Key - 1; ++row)
-        {
-          for (int column = 0; column < boardSize; ++column)
-          {
-            var verticalShip = ShipFactory.Vertical((column, row), length.Key);
-            PlaceShipIfSpace(result, allPossiblePositions, verticalShip);
-          }
-        }
+        var allShipPositions = horizontalShips.Concat(verticalShips);
+        var allPossiblePositions = allShipPositions
+          .Where(possiblePosition => !result.Any(ship => ship.Intersect(possiblePosition).Any()))
+          .ToArray();
 
-        foreach (var _ in length)
+        foreach (var _ in lengthGroup)
         {
-          if (allPossiblePositions.Count == 0)
-          {
-            throw new Exception("No remaining ship positions");
-          }
-          int index = rng.Next(0, allPossiblePositions.Count); // TODO: run out of picks?
-          var randomPick = allPossiblePositions[index];
-          result.Add(randomPick);
-          allPossiblePositions = RemoveTakenPositions(allPossiblePositions, randomPick);
+          var randomPickShip = Pick(allPossiblePositions);
+          result.Add(randomPickShip);
+
+          allPossiblePositions = allPossiblePositions
+            .Where(place => !place.Intersect(randomPickShip).Any())
+            .ToArray();
         }
       }
       return result;
     }
 
-    private static List<HashSet<string>> RemoveTakenPositions(List<HashSet<string>> allPossiblePositions, HashSet<string> randomPick)
+    private static List<string> Pick(List<string>[] allPossiblePositions)
     {
-      return allPossiblePositions.Where(place => !place.Intersect(randomPick).Any()).ToList();
-    }
+      if (allPossiblePositions.Length == 0)
+      {
+        throw new Exception("No remaining ship positions");
+      }
 
-    private static void PlaceShipIfSpace(
-      List<HashSet<string>> result,
-      List<HashSet<string>> allPossiblePositions,
-      HashSet<string> horizontalShip)
-    {
-      if (result.All(place => !place.Intersect(horizontalShip).Any()))
-        allPossiblePositions.Add(horizontalShip);
+      int index = rng.Next(0, allPossiblePositions.Length);
+      var randomPickShip = allPossiblePositions[index];
+      return randomPickShip;
     }
   }
 }

@@ -77,7 +77,7 @@ namespace Battleships19.Tests
 
       var positions = positionGenerator.Generate(new List<int> { 4 });
 
-      Assert.Equal(new[] { "J4", "J5", "J6", "J7" }, positions[0]);
+      Assert.Equal(new[] { "J3", "J4", "J5", "J6" }, positions[0]);
     }
 
     [Fact]

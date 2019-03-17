@@ -7,20 +7,20 @@ namespace Battleships19
   {
     public const string Columns = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    public static HashSet<string> Vertical((int column, int row) coord, int length)
+    public static List<string> Vertical((int column, int row) coord, int length)
     {
       return Enumerable.
         Range(0, length).
         Select(x => ToString(coord.column, coord.row + x)).
-        ToHashSet();
+        ToList();
     }
 
-    public static HashSet<string> Horizontal((int column, int row) coord, int length)
+    public static List<string> Horizontal((int column, int row) coord, int length)
     {
       return Enumerable.
         Range(0, length).
         Select(x => ToString(coord.column + x, coord.row)).
-        ToHashSet();
+        ToList();
     }
 
     private static string ToString(int column, int row)

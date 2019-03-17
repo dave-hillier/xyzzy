@@ -14,7 +14,6 @@ namespace Battleships19.Tests
     [Fact]
     public void TimeSlow()
     {
-
       var shipLengths = Enumerable.Range(0, ShipCount).Select(_ => 5).ToList();
       var positionGenerator = new SlowShipPositionGenerator(BoardSize);
 
@@ -22,7 +21,26 @@ namespace Battleships19.Tests
       Console.WriteLine("Slow");
     }
 
-    private static void TimeGenerate(List<int> shipLengths, Func<List<HashSet<string>>> positionGenerator)
+    [Fact]
+    public void TestFill()
+    {
+      var shipLengths = new List<int> { 5, 4, 4, 4, 3, 2 };
+      var positionGenerator = new SlowShipPositionGenerator(5);
+      var positions = positionGenerator.Generate(shipLengths);
+      Grid.Write(positions, 5);
+    }
+
+    [Fact]
+    public void TestFillRandom()
+    {
+      var shipLengths = new List<int> { 5, 4, 4, 4, 3, 2 };
+      var positionGenerator = new RandomShipPositionGenerator(5);
+      var positions = positionGenerator.Generate(shipLengths);
+      Grid.Write(positions, 5);
+    }
+
+
+    private static void TimeGenerate(List<int> shipLengths, Func<List<List<string>>> positionGenerator)
     {
       var stopwatch = new Stopwatch();
       stopwatch.Start();
@@ -35,7 +53,7 @@ namespace Battleships19.Tests
       Console.WriteLine($"{stopwatch.ElapsedMilliseconds} *** ");
     }
 
-    //[Fact]
+    [Fact]
     public void TimeRandom()
     {
       var positionGenerator = new RandomShipPositionGenerator(BoardSize);

@@ -9,7 +9,7 @@ namespace Battleships19.Tests
 {
   public class GameTest
   {
-    private List<HashSet<string>> positions = new FixedShipPositionGenerator().Generate(new List<int> { });
+    private List<List<string>> positions = new FixedShipPositionGenerator().Generate(new List<int> { 4, 4, 5 });
 
     [Theory]
     [InlineData("", false)]
@@ -79,7 +79,7 @@ namespace Battleships19.Tests
       RunFullGame(positionGenerator.Generate(new List<int> { 5, 4, 4 }));
     }
 
-    private void RunFullGame(List<HashSet<string>> positions)
+    private void RunFullGame(List<List<string>> positions)
     {
       var game = new Game(positions);
       var input = GenerateAllCoordinates();
@@ -120,7 +120,7 @@ namespace Battleships19.Tests
 
 
       game.Start(input, output);
-      return ToLines(output).Where(l => !l.Contains("Enter")).ToArray();
+      return ToLines(output).Where(line => !line.Contains("Enter")).ToArray();
     }
     private static string[] ToLines(StringWriter output)
     {

@@ -16,9 +16,9 @@ namespace Battleships19
   public class Game
   {
     public int BoardSize { get; set; } = 10;
-    public List<HashSet<string>> ShipPositions { get; }
+    public List<List<string>> ShipPositions { get; }
 
-    public Game(List<HashSet<string>> shipPositions)
+    public Game(List<List<string>> shipPositions)
     {
       ShipPositions = shipPositions;
     }
@@ -29,7 +29,7 @@ namespace Battleships19
 
     public void Start(TextReader @in, TextWriter @out)
     {
-      var shotsTaken = new HashSet<string>();
+      var shotsTaken = new HashSet<string> { };
 
       var input = ReadCoordinates(@in, @out);
       while (input != null)
@@ -52,7 +52,7 @@ namespace Battleships19
             var result = TakeShot(ShipPositions, input);
             @out.WriteLine(result.ToString().ToUpper());
 
-            if (ShipPositions.All(cell => cell.Count == 0))
+            if (ShipPositions.All(cell => !cell.Any()))
             {
               @out.WriteLine(WinAllShipsSunk);
               break;
@@ -70,13 +70,13 @@ namespace Battleships19
       return @in.ReadLine();
     }
 
-    private static ShotResult TakeShot(List<HashSet<string>> shipPositions, string input)
+    private static ShotResult TakeShot(List<List<string>> shipPositions, string input)
     {
       var results = shipPositions.Select(ship => ProcessShot(input, ship));
       return results.FirstOrDefault(shot => shot != ShotResult.Miss);
     }
 
-    private static ShotResult ProcessShot(string input, HashSet<string> ship)
+    private static ShotResult ProcessShot(string input, List<string> ship)
     {
       return ship.Remove(input) ?
         (ship.Count() == 0 ? ShotResult.Sink : ShotResult.Hit) :

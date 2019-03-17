@@ -19,13 +19,13 @@ namespace Battleships19
       NextCoordinates = () => (rng.Next(0, BoardSize), rng.Next(0, BoardSize));
     }
 
-    public List<HashSet<string>> Generate(List<int> shipLengths)
+    public List<List<string>> Generate(IEnumerable<int> shipLengths)
     {
-      var iterationLimit = 100;
-      var result = new List<HashSet<string>>();
+      var iterationLimit = 2 * BoardSize * BoardSize;
+      var result = new List<List<string>>();
       foreach (var length in shipLengths)
       {
-        HashSet<string> newShip;
+        List<string> newShip;
         do
         {
           if (--iterationLimit == 0)
@@ -37,12 +37,12 @@ namespace Battleships19
       return result;
     }
 
-    private HashSet<string> GenerateShip(int length)
+    private List<string> GenerateShip(int length)
     {
       var cooridnates = NextCoordinates();
       return NextOrientation() ?
-        ShipFactory.Vertical((cooridnates.column, cooridnates.row % (BoardSize - length)), length) :
-        ShipFactory.Horizontal((cooridnates.column % (BoardSize - length), cooridnates.row), length);
+        ShipFactory.Vertical((cooridnates.column, cooridnates.row % (BoardSize - (length - 1))), length) :
+        ShipFactory.Horizontal((cooridnates.column % (BoardSize - (length - 1)), cooridnates.row), length);
     }
   }
 }
