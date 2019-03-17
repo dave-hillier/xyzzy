@@ -7,11 +7,11 @@ namespace Battleships19
 {
   class RandomShipPositionGenerator
   {
-    private const string columns = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static Random rng = new Random();
-    internal Func<bool> NextOrientation = () => rng.Next(0, 2) == 1; // Internal for tests
+    internal Func<bool> NextOrientation = () => rng.Next(0, 2) == 1; // Internal for test override
+
+    internal Func<(int column, int row)> NextCoordinates; // Internal for test override
     public int BoardSize { get; set; }
-    internal Func<(int column, int row)> NextCoordinates; // Internal for tests
 
     public RandomShipPositionGenerator(int boardSize)
     {
@@ -19,26 +19,8 @@ namespace Battleships19
       NextCoordinates = () => (rng.Next(0, BoardSize), rng.Next(0, BoardSize));
     }
 
-    private static HashSet<string> Vertical((int column, int row) coord, int length)
-    {
-      return Enumerable.
-        Range(0, length).
-        Select(x => ToString(coord.column, coord.row + x)).
-        ToHashSet();
-    }
 
-    private static HashSet<string> Horizontal((int column, int row) coord, int length)
-    {
-      return Enumerable.
-        Range(0, length).
-        Select(x => ToString(coord.column + x, coord.row)).
-        ToHashSet();
-    }
 
-    private static string ToString(int column, int row)
-    {
-      return $"{columns[column]}{1 + row}";
-    }
 
     public List<HashSet<string>> Generate(List<int> shipLengths)
     {
@@ -59,8 +41,8 @@ namespace Battleships19
     {
       var cooridnates = NextCoordinates();
       return NextOrientation() ?
-        Vertical((cooridnates.column, cooridnates.row % (BoardSize - length)), length) :
-        Horizontal((cooridnates.column % (BoardSize - length), cooridnates.row), length);
+        ShipFactory.Vertical((cooridnates.column, cooridnates.row % (BoardSize - length)), length) :
+        ShipFactory.Horizontal((cooridnates.column % (BoardSize - length), cooridnates.row), length);
     }
   }
 }

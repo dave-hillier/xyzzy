@@ -72,6 +72,13 @@ namespace Battleships19.Tests
       RunFullGame(positionGenerator.Generate(new List<int> { 5, 4, 4 }));
     }
 
+    [Fact]
+    public void Slow_ship_positions()
+    {
+      var positionGenerator = new SlowShipPositionGenerator(10);
+      RunFullGame(positionGenerator.Generate(new List<int> { 5, 4, 4 }));
+    }
+
     private void RunFullGame(List<HashSet<string>> positions)
     {
       var game = new Game(positions);
