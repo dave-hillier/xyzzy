@@ -32,7 +32,7 @@ namespace Battleships19
       var shotsTaken = new HashSet<string> { };
 
       var input = ReadCoordinates(@in, @out);
-      while (input != null)
+      while (input != null) // Returns null when test input has ended. 
       {
         bool valid = Coordinates.TryParse(input, BoardSize);
         if (!valid)
