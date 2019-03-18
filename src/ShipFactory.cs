@@ -9,18 +9,16 @@ namespace Battleships19
 
     public static List<string> Vertical((int column, int row) coord, int length)
     {
-      return Enumerable.
-        Range(0, length).
-        Select(x => ToString(coord.column, coord.row + x)).
-        ToList();
+      return Enumerable.Range(0, length)
+        .Select(x => ToString(coord.column, coord.row + x))
+        .ToList();
     }
 
     public static List<string> Horizontal((int column, int row) coord, int length)
     {
-      return Enumerable.
-        Range(0, length).
-        Select(x => ToString(coord.column + x, coord.row)).
-        ToList();
+      return Enumerable.Range(0, length)
+        .Select(x => ToString(coord.column + x, coord.row))
+        .ToList();
     }
 
     private static string ToString(int column, int row)

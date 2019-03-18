@@ -12,7 +12,10 @@ namespace Battleships19
       WriteShipPositions(shipPositions);
 
       var headers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      var old = Console.ForegroundColor;
+      Console.ForegroundColor = ConsoleColor.Green;
       Console.WriteLine($"  |{string.Join("|", headers.Take(gridSize).Select(c => c.ToString().PadLeft(2)))}|");
+      Console.ForegroundColor = old;
 
       var shipIndexes = CellIndexes(shipPositions);
 
@@ -26,7 +29,10 @@ namespace Battleships19
           return "  ";
         });
 
-        Console.WriteLine($"{row.ToString().PadLeft(2)}|{string.Join("|", cells)}|");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.Write($"{row.ToString().PadLeft(2)}|");
+        Console.ForegroundColor = old;
+        Console.WriteLine($"{string.Join("|", cells)}|");
       }
 
       Console.WriteLine();

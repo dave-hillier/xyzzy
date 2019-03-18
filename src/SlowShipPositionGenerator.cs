@@ -32,7 +32,7 @@ namespace Battleships19
 
         var allShipPositions = horizontalShips.Concat(verticalShips);
         var allPossiblePositions = allShipPositions
-          .Where(possiblePosition => !result.Any(ship => ship.Intersect(possiblePosition).Any()))
+          .Where(possiblePosition => !result.Any(ship => ship.Any(possiblePosition.Contains)))
           .ToArray();
 
         foreach (var _ in lengthGroup)
@@ -41,7 +41,7 @@ namespace Battleships19
           result.Add(randomPickShip);
 
           allPossiblePositions = allPossiblePositions
-            .Where(place => !place.Intersect(randomPickShip).Any())
+            .Where(place => !place.Any(randomPickShip.Contains))
             .ToArray();
         }
       }

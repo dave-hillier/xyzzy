@@ -49,7 +49,7 @@ namespace Battleships19.Tests
 
       var position = positionGenerator();
       stopwatch.Stop();
-      //Grid.Write(position, BoardSize);
+      Grid.Write(position, BoardSize);
       Console.WriteLine($"{stopwatch.ElapsedMilliseconds} *** ");
     }
 
