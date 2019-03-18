@@ -28,7 +28,7 @@ namespace Battleships19.Tests
     [InlineData("J10", true)]
     public void Coordinate_validation(string coords, bool isValid)
     {
-      var game = new Game(positions);
+      var game = new Game(positions, 10);
 
       var lines = RunGame(game, $"{coords}\n");
 
@@ -41,7 +41,7 @@ namespace Battleships19.Tests
     [Fact]
     public void Can_take_multiple_failing_shots()
     {
-      var game = new Game(positions);
+      var game = new Game(positions, 10);
 
       var lines = RunGame(game, $"Z1\nZ2\n");
 
@@ -52,7 +52,7 @@ namespace Battleships19.Tests
     [Fact]
     public void Same_coordiates()
     {
-      var game = new Game(positions);
+      var game = new Game(positions, 10);
 
       var lines = RunGame(game, $"A1\nA1\n");
 
@@ -81,7 +81,7 @@ namespace Battleships19.Tests
 
     private void RunFullGame(List<List<string>> positions)
     {
-      var game = new Game(positions);
+      var game = new Game(positions, 10);
       var input = GenerateAllCoordinates();
 
       var lines = RunGame(game, input.ToString());

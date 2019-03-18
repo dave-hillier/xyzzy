@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-
 namespace Battleships19
 {
   enum ShotResult
@@ -15,12 +14,13 @@ namespace Battleships19
 
   public class Game
   {
-    public int BoardSize { get; set; } = 10;
+    public int BoardSize { get; set; }
     public List<List<string>> ShipPositions { get; }
 
-    public Game(List<List<string>> shipPositions)
+    public Game(List<List<string>> shipPositions, int boardSize)
     {
       ShipPositions = shipPositions;
+      BoardSize = boardSize;
     }
 
     private const string ErrorInvalidCoordinates = "ERROR: Invalid Coordinates";

@@ -18,7 +18,7 @@ namespace Battleships19
       var shipPositions = positionGenerator.Generate(shipLengths);
       Grid.Write(shipPositions, BoardSize);
 
-      var game = new Game(shipPositions);
+      var game = new Game(shipPositions, BoardSize);
       game.Start(Console.In, Console.Out);
     }
   }

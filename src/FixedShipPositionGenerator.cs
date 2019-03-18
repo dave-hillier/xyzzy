@@ -8,8 +8,7 @@ namespace Battleships19
   {
     public List<List<string>> Generate(IEnumerable<int> shipLengths)
     {
-      List<List<string>> list = shipLengths.Select((l, i) => ShipFactory.Horizontal((0, i), l)).ToList();
-      return list;
+      return shipLengths.Select((l, i) => ShipFactory.Horizontal((0, i), l)).ToList();
     }
   }
 }

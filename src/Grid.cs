@@ -10,11 +10,11 @@ namespace Battleships19
     public static void Write(List<List<string>> shipPositions, int gridSize)
     {
       WriteShipPositions(shipPositions);
+      var headers = Columns.Get(gridSize).ToArray();
 
-      var headers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       var old = Console.ForegroundColor;
       Console.ForegroundColor = ConsoleColor.Green;
-      Console.WriteLine($"  |{string.Join("|", headers.Take(gridSize).Select(c => c.ToString().PadLeft(2)))}|");
+      Console.WriteLine($"  |{string.Join("|", headers.Select(c => c.ToString().PadLeft(2)))}|");
       Console.ForegroundColor = old;
 
       var shipIndexes = CellIndexes(shipPositions);

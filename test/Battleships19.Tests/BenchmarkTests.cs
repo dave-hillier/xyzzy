@@ -8,7 +8,7 @@ namespace Battleships19.Tests
 {
   public class BenchmarkTests
   {
-    const int BoardSize = 26;
+    const int BoardSize = 30;
     const int ShipCount = 100;
 
     [Fact]

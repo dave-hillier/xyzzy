@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Battleships19
 {
-  public class Coordinates
+  public static class Coordinates
   {
     // I called this TryParse as I assumed I'd end up needing the actual coordinates but 
     // I didnt and it seemed like a reasonable enough name - Validate?
@@ -16,13 +16,17 @@ namespace Battleships19
         return false;
 
       var alpha = match.Groups[1].Value.ToLowerInvariant();
-      if (alpha.Length > 1) // Only single letter coordinates supported
-        return false;
-
-      var column = (int)alpha[0] - 'a';
+      var column = Columns.Index(alpha);
       var row = decimal.Parse(match.Groups[2].Value) - 1;
+
       return column >= 0 && column < boardSize &&
         row >= 0 && row < boardSize;
+    }
+
+    public static string ToCoordinateString(this (int column, int row) tuple)
+    {
+      var (column, row) = tuple;
+      return $"{Columns.Name(column)}{1 + row}";
     }
   }
 }
