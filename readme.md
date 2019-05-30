@@ -22,3 +22,9 @@ I used TDD to develop the complete game without the random placement of ships. I
 I've tried to ensure that any of the "data" for the game can be changed in one place. This means it is easy to extend for new ship types and board sizes. Maximum board size is 26x26 due to using alphabet for the column names.
 
 Initialisation is so simple in Program.cs I felt no need for any kind of DI framework.
+
+## Extension of the Challenge
+
+I decide to extend the challenge a little bit. The algorithm I first implemented could end up not being able to place ships despite there potentially spaces left. I implemented an algorithm that selects all possible ship positions and when a ship is positioned, it removes the overlapping positions from the list of possible positions.
+
+To demonstrate this, I also implemented the ability to change the board size. 
