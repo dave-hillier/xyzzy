@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Battleships19
 {
-  class Grid
+  internal static class DiagnosticHelper
   {
-    public static void Write(List<List<string>> shipPositions, int gridSize)
+    public static void WriteGridToConsole(List<List<string>> shipPositions, int gridSize)
     {
-      WriteShipPositions(shipPositions);
+      WriteShipPositionsToConsole(shipPositions);
       var headers = Columns.Get(gridSize).ToArray();
 
       var old = Console.ForegroundColor;
@@ -21,12 +20,12 @@ namespace Battleships19
 
       for (var row = 1; row <= gridSize; ++row)
       {
+        var r = row;
         var cells = Enumerable.Range(0, gridSize).Select(c =>
         {
-          var cell = $"{headers[c]}{row}";
-          if (shipIndexes.ContainsKey(cell))
-            return shipIndexes[cell].ToString().PadLeft(2);
-          return "  ";
+          var cell = $"{headers[c]}{r}";
+          return shipIndexes.ContainsKey(cell) ? 
+            shipIndexes[cell].ToString().PadLeft(2) : "  ";
         });
 
         Console.ForegroundColor = ConsoleColor.Green;
@@ -41,13 +40,12 @@ namespace Battleships19
     private static Dictionary<string, int> CellIndexes(List<List<string>> shipPositions)
     {
       var shipIndex = shipPositions.Select((ship, index) => new { ship, index });
-      var dict = (from cells in shipIndex
-                  from cell in cells.ship
-                  select new { cell, cells.index }).ToDictionary(kv => kv.cell, kv => kv.index);
-      return dict;
+      return (from cells in shipIndex
+        from cell in cells.ship
+        select new { cell, cells.index }).ToDictionary(kv => kv.cell, kv => kv.index);
     }
 
-    private static void WriteShipPositions(List<List<string>> shipPositions)
+    private static void WriteShipPositionsToConsole(List<List<string>> shipPositions)
     {
       foreach (var ship in shipPositions)
       {

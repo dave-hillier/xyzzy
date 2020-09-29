@@ -1,13 +1,10 @@
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace Battleships19
 {
   public static class Coordinates
   {
-    // I called this TryParse as I assumed I'd end up needing the actual coordinates but 
-    // I didnt and it seemed like a reasonable enough name - Validate?
-    public static bool TryParse(string input, int boardSize)
+    public static bool IsValid(string input, int boardSize)
     {
       var rx = new Regex(@"([a-z]+)([0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
       var match = rx.Match(input);

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Battleships19
 {
+  // Strategy used for tests; place the ships in predictable positions.
   class FixedShipPositionGenerator
   {
     public List<List<string>> Generate(IEnumerable<int> shipLengths)

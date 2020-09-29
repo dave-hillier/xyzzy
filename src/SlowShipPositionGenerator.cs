@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace Battleships19
 {
+  // An experiment in an alternative algorithm for ship placement.
+  // Will provide a more compact placement of ships
   class SlowShipPositionGenerator
   {
     private readonly int boardSize;

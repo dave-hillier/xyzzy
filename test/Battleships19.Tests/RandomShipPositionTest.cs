@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace Battleships19.Tests
@@ -95,6 +92,7 @@ namespace Battleships19.Tests
 
     private void Setup(RandomShipPositionGenerator positionGenerator, List<bool> orientation, List<(int, int)> coordinates)
     {
+      // Replace the random number generation with specific values for tests
       positionGenerator.NextOrientation = () => PopFirst(orientation);
       positionGenerator.NextCoordinates = () => PopFirst(coordinates);
     }

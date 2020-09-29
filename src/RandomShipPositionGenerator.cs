@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Battleships19
 {
   class RandomShipPositionGenerator
   {
     private static Random rng = new Random();
-    internal Func<bool> NextOrientation = () => rng.Next(0, 2) == 1; // Internal for test override
-
-    internal Func<(int column, int row)> NextCoordinates; // Internal for test override
-    public int BoardSize { get; set; }
+    
+    // The following two fields are internal so that they can be overriden by tests. This could be considered a hack,
+    // but given the only use case for overriding these fields in the tests, I didnt seem much point in providing a 
+    // constructor for overriding them. 
+    internal Func<bool> NextOrientation = () => rng.Next(0, 2) == 1; 
+    internal Func<(int column, int row)> NextCoordinates;
+    private int BoardSize { get; }
 
     public RandomShipPositionGenerator(int boardSize)
     {
@@ -39,10 +41,10 @@ namespace Battleships19
 
     private List<string> GenerateShip(int length)
     {
-      var cooridnates = NextCoordinates();
+      var coordinates = NextCoordinates();
       return NextOrientation() ?
-        ShipFactory.Vertical((cooridnates.column, cooridnates.row % (BoardSize - (length - 1))), length) :
-        ShipFactory.Horizontal((cooridnates.column % (BoardSize - (length - 1)), cooridnates.row), length);
+        ShipFactory.Vertical((coordinates.column, coordinates.row % (BoardSize - (length - 1))), length) :
+        ShipFactory.Horizontal((coordinates.column % (BoardSize - (length - 1)), coordinates.row), length);
     }
   }
 }

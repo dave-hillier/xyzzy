@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Xunit;
 using System.Linq;
+using Xunit.Abstractions;
 
 namespace Battleships19.Tests
 {
+  // Note that these are not real tests, just using a test runner to give a way to run experiments/microbenchmarks 
   public class BenchmarkTests
   {
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public BenchmarkTests(ITestOutputHelper testOutputHelper)
+    {
+      _testOutputHelper = testOutputHelper;
+    }
+
     const int BoardSize = 30;
     const int ShipCount = 100;
 
@@ -18,7 +27,7 @@ namespace Battleships19.Tests
       var positionGenerator = new SlowShipPositionGenerator(BoardSize);
 
       TimeGenerate(shipLengths, () => positionGenerator.Generate(shipLengths));
-      Console.WriteLine("Slow");
+      _testOutputHelper.WriteLine("Slow");
     }
 
     [Fact]
@@ -27,7 +36,7 @@ namespace Battleships19.Tests
       var shipLengths = new List<int> { 5, 4, 4, 4, 3, 2 };
       var positionGenerator = new SlowShipPositionGenerator(5);
       var positions = positionGenerator.Generate(shipLengths);
-      Grid.Write(positions, 5);
+      DiagnosticHelper.WriteGridToConsole(positions, 5);
     }
 
     [Fact]
@@ -36,7 +45,7 @@ namespace Battleships19.Tests
       var shipLengths = new List<int> { 5, 4, 4, 4, 3, 2 };
       var positionGenerator = new RandomShipPositionGenerator(5);
       var positions = positionGenerator.Generate(shipLengths);
-      Grid.Write(positions, 5);
+      DiagnosticHelper.WriteGridToConsole(positions, 5);
     }
 
 
@@ -49,7 +58,7 @@ namespace Battleships19.Tests
 
       var position = positionGenerator();
       stopwatch.Stop();
-      Grid.Write(position, BoardSize);
+      DiagnosticHelper.WriteGridToConsole(position, BoardSize);
       Console.WriteLine($"{stopwatch.ElapsedMilliseconds} *** ");
     }
 
@@ -60,7 +69,7 @@ namespace Battleships19.Tests
       var shipLengths = Enumerable.Range(0, ShipCount).Select(_ => 5).ToList();
 
       TimeGenerate(shipLengths, () => positionGenerator.Generate(shipLengths));
-      Console.WriteLine("Random");
+      _testOutputHelper.WriteLine("Random");
     }
   }
 }

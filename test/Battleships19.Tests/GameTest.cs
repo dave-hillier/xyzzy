@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -50,7 +49,7 @@ namespace Battleships19.Tests
     }
 
     [Fact]
-    public void Same_coordiates()
+    public void Same_coordinate_produces_error()
     {
       var game = new Game(positions, 10);
 
@@ -60,20 +59,20 @@ namespace Battleships19.Tests
     }
 
     [Fact]
-    public void Shoot_all_cells()
+    public void Shoot_all_cells_finished_game()
     {
       RunFullGame(positions);
     }
 
     [Fact]
-    public void Random_ship_positions()
+    public void Random_ship_positions_game_runs_to_completion()
     {
       var positionGenerator = new RandomShipPositionGenerator(10);
       RunFullGame(positionGenerator.Generate(new List<int> { 5, 4, 4 }));
     }
 
     [Fact]
-    public void Slow_ship_positions()
+    public void Slow_ship_positions_game_runs_to_completion()
     {
       var positionGenerator = new SlowShipPositionGenerator(10);
       RunFullGame(positionGenerator.Generate(new List<int> { 5, 4, 4 }));
@@ -117,8 +116,6 @@ namespace Battleships19.Tests
     {
       var output = new StringWriter();
       var input = new StringReader(stringInput);
-
-
       game.Start(input, output);
       return ToLines(output).Where(line => !line.Contains("Enter")).ToArray();
     }
