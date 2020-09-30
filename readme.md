@@ -27,4 +27,4 @@ Initialisation is so simple in Program.cs I felt no need for any kind of DI fram
 
 I decide to extend the challenge a little bit. The algorithm I first implemented could end up not being able to place ships despite there potentially spaces left. I implemented an algorithm that selects all possible ship positions and when a ship is positioned, it removes the overlapping positions from the list of possible positions.
 
-To demonstrate this, I also implemented the ability to change the board size. 
+To demonstrate this, I also implemented the ability to change the board size, though both the algorithm and board size are hardcoded in the game. 
