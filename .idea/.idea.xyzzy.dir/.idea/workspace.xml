@@ -29,13 +29,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bdff91d2-fbf9-426a-987a-7e2fe1ad8ab5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.xyzzy.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.xyzzy.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Coordinates.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Coordinates.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DiagnosticHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/DiagnosticHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RandomShipPositionGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomShipPositionGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SlowShipPositionGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/SlowShipPositionGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Battleships19.Tests/BenchmarkTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/test/Battleships19.Tests/BenchmarkTests.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,13 +40,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Users/davehillier/source/repos/xyzzy/src/Game.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/davehillier/source/repos/xyzzy/src/RandomShipPositionGenerator.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/davehillier/source/repos/xyzzy/src/Coordinates.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Users/davehillier/source/repos/xyzzy/test/Battleships19.Tests/BenchmarkTests.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/davehillier/source/repos/xyzzy/src/Program.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Users/davehillier/source/repos/xyzzy/src/DiagnosticHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/B8B10B82-47CB-413E-AB51-75C26A5956A7/94/3403f713/ITestOutputHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Users/davehillier/source/repos/xyzzy/src/SlowShipPositionGenerator.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -64,13 +54,13 @@
         <option value="$PROJECT_DIR$/src/FixedShipPositionGenerator.cs" />
         <option value="$PROJECT_DIR$/test/Battleships19.Tests/GameTest.cs" />
         <option value="$PROJECT_DIR$/test/Battleships19.Tests/BenchmarkTests.cs" />
-        <option value="$PROJECT_DIR$/src/DiagnosticHelper.cs" />
         <option value="$PROJECT_DIR$/src/RandomShipPositionGenerator.cs" />
         <option value="$PROJECT_DIR$/src/SlowShipPositionGenerator.cs" />
-        <option value="$PROJECT_DIR$/src/Game.cs" />
         <option value="$PROJECT_DIR$/src/ShipFactory.cs" />
         <option value="$PROJECT_DIR$/src/Coordinates.cs" />
         <option value="$PROJECT_DIR$/src/Program.cs" />
+        <option value="$PROJECT_DIR$/src/DiagnosticHelper.cs" />
+        <option value="$PROJECT_DIR$/src/Game.cs" />
       </list>
     </option>
   </component>
@@ -120,56 +110,47 @@
       <workItem from="1601463628562" duration="68000" />
       <workItem from="1601463704989" duration="86000" />
       <workItem from="1601463821689" duration="4498000" />
+      <workItem from="1601475568784" duration="3018000" />
     </task>
+    <task id="LOCAL-00001" summary="Some renames and comments">
+      <created>1601475633174</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1601475633174</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Renamed grid to board">
+      <created>1601475925757</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1601475925757</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="150" />
+    <option name="coveragePercentColumnWidth" value="106" />
     <option name="sortOrder" value="DESCENDING" />
     <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="467" />
+    <option name="symbolColumnWidth" value="318" />
     <coverage-tree-state>
       <expand>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 98% 10/402" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 95% 10/221" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 98% 10/402" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Battleships19.Tests 100% 0/181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 98% 10/402" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Battleships19.Tests 100% 0/181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Battleships19.Tests 100% 0/181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 98% 10/402" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Battleships19.Tests 100% 0/181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Battleships19.Tests 100% 0/181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="BenchmarkTests 100% 0/44" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 98% 10/402" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Battleships19.Tests 100% 0/181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Battleships19.Tests 100% 0/181" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="RandomShipPositionTest 100% 0/62" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 98% 10/402" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 95% 10/221" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Battleships19 95% 10/221" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
         <path>
           <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 98% 10/402" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
+          <item name="Total 95% 10/221" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Battleships19 95% 10/221" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
           <item name="Battleships19 95% 10/221" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
         </path>
@@ -193,6 +174,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Some renames and comments" />
+    <MESSAGE value="Renamed grid to board" />
+    <option name="LAST_COMMIT_MESSAGE" value="Renamed grid to board" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2770" y="449" key="RollbackChangesDialog" timestamp="1601393305994">
@@ -203,5 +187,9 @@
       <screen x="4240" y="23" width="2560" height="1417" />
     </state>
     <state x="5026" y="370" key="SettingsEditor/1680.23.2560.1417/4240.23.2560.1417/0.23.1680.1027@4240.23.2560.1417" timestamp="1601463787598" />
+    <state x="5114" y="327" width="659" height="735" key="find.popup" timestamp="1601475902415">
+      <screen x="4240" y="23" width="2560" height="1417" />
+    </state>
+    <state x="5114" y="327" width="659" height="735" key="find.popup/1680.23.2560.1417/4240.23.2560.1417/0.23.1680.1027@4240.23.2560.1417" timestamp="1601475902415" />
   </component>
 </project>

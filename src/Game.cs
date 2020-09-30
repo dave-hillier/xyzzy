@@ -27,10 +27,9 @@ namespace Battleships19
       var shotsTaken = new HashSet<string>();
 
       var input = ReadCoordinates(@in, @out);
-      while (input != null) // HACK: Check for the end of test input. Allows exiting without having to run through the whole hame.
+      while (input != null) // HACK: Check for the end of test input. Allows exiting without having to run through the whole game.
       {
-        bool valid = Coordinates.IsValid(input, BoardSize);
-        if (!valid)
+        if (!Coordinates.IsValid(input, BoardSize))
         {
           @out.WriteLine("ERROR: Invalid Coordinates");
         }
@@ -44,7 +43,7 @@ namespace Battleships19
           else
           {
             shotsTaken.Add(input);
-            var result = TakeShot(ShipPositions, input); // I don't like the impure nature of this call
+            var result = TakeShot(input);
             @out.WriteLine(result.ToString().ToUpper());
 
             if (ShipPositions.All(cell => !cell.Any()))
@@ -64,10 +63,10 @@ namespace Battleships19
       return @in.ReadLine();
     }
 
-    private static ShotResult TakeShot(List<List<string>> shipPositions, string input)
+    private ShotResult TakeShot(string input)
     {
       // Assumes non-empty shipPositions
-      var results = shipPositions.Select(ship => UpdateShip(input, ship));
+      var results = ShipPositions.Select(ship => UpdateShip(input, ship));
       return results.FirstOrDefault(shot => shot != ShotResult.Miss);
     }
 

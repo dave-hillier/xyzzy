@@ -22,7 +22,8 @@ namespace Battleships19
       Console.WriteLine($"  |{string.Join("|", headers.Select(c => c.ToString().PadLeft(2)))}|");
       Console.ForegroundColor = old;
 
-      var shipIndexes = CellIndexes(shipPositions);
+      // Assign a ship a number for display
+      var cellShipNumber = CellShipNumber(shipPositions);
 
       for (var row = 1; row <= boardSize; ++row)
       {
@@ -30,7 +31,7 @@ namespace Battleships19
         var cells = Enumerable.Range(0, boardSize).Select(c =>
         {
           var cell = $"{headers[c]}{r}";
-          return shipIndexes.ContainsKey(cell) ? shipIndexes[cell].ToString().PadLeft(2) : "  ";
+          return cellShipNumber.ContainsKey(cell) ? cellShipNumber[cell].ToString().PadLeft(2) : "  ";
         });
 
         Console.ForegroundColor = ConsoleColor.Green;
@@ -42,7 +43,7 @@ namespace Battleships19
       Console.WriteLine();
     }
 
-    private static Dictionary<string, int> CellIndexes(List<List<string>> shipPositions)
+    private static Dictionary<string, int> CellShipNumber(List<List<string>> shipPositions)
     {
       var shipIndex = shipPositions.Select((ship, index) => new { ship, index });
       return (from cells in shipIndex
