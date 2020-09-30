@@ -7,15 +7,15 @@ namespace Battleships19
   // Untested as it's not required for the spec, but it makes things easier to test when playing
   internal static class DiagnosticHelper
   {
-    public static void WriteToConsole(List<List<string>> shipPositions, int gridSize)
+    public static void WriteToConsole(List<List<string>> shipPositions, int boardSize)
     {
       WriteShipPositionsToConsole(shipPositions);
-      WriteGrid(shipPositions, gridSize);
+      WriteBoard(shipPositions, boardSize);
     }
 
-    private static void WriteGrid(List<List<string>> shipPositions, int gridSize)
+    private static void WriteBoard(List<List<string>> shipPositions, int boardSize)
     {
-      var headers = Columns.Get(gridSize).ToArray();
+      var headers = Columns.Get(boardSize).ToArray();
 
       var old = Console.ForegroundColor;
       Console.ForegroundColor = ConsoleColor.Green;
@@ -24,10 +24,10 @@ namespace Battleships19
 
       var shipIndexes = CellIndexes(shipPositions);
 
-      for (var row = 1; row <= gridSize; ++row)
+      for (var row = 1; row <= boardSize; ++row)
       {
         var r = row;
-        var cells = Enumerable.Range(0, gridSize).Select(c =>
+        var cells = Enumerable.Range(0, boardSize).Select(c =>
         {
           var cell = $"{headers[c]}{r}";
           return shipIndexes.ContainsKey(cell) ? shipIndexes[cell].ToString().PadLeft(2) : "  ";
