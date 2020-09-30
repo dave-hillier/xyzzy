@@ -12,11 +12,11 @@ namespace Battleships19
 
     static void Main(string[] args)
     {
-      var positionGenerator = new SlowShipPositionGenerator(BoardSize); // The strategy for placing ships
+      var positionGenerator = new RandomShipPositionGenerator(BoardSize); // The selected/hardcoded strategy for placing ships
       var shipLengths = new List<int> { 5, 4, 4 };
 
       var shipPositions = positionGenerator.Generate(shipLengths);
-      DiagnosticHelper.WriteGridToConsole(shipPositions, BoardSize);  // Cheat by showing the positions of the ships
+      DiagnosticHelper.WriteToConsole(shipPositions, BoardSize);  // Cheat by showing the positions of the ships
 
       var game = new Game(shipPositions, BoardSize);
       game.Start(Console.In, Console.Out);

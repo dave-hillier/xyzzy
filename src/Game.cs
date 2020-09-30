@@ -67,11 +67,11 @@ namespace Battleships19
     private static ShotResult TakeShot(List<List<string>> shipPositions, string input)
     {
       // Assumes non-empty shipPositions
-      var results = shipPositions.Select(ship => ResolveShot(input, ship));
+      var results = shipPositions.Select(ship => UpdateShip(input, ship));
       return results.FirstOrDefault(shot => shot != ShotResult.Miss);
     }
 
-    private static ShotResult ResolveShot(string cell, List<string> ship)
+    private static ShotResult UpdateShip(string cell, List<string> ship)
     {
       return ship.Remove(cell) ?
         (!ship.Any() ? ShotResult.Sink : ShotResult.Hit) :

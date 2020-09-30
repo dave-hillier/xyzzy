@@ -36,7 +36,7 @@ namespace Battleships19.Tests
       var shipLengths = new List<int> { 5, 4, 4, 4, 3, 2 };
       var positionGenerator = new SlowShipPositionGenerator(5);
       var positions = positionGenerator.Generate(shipLengths);
-      DiagnosticHelper.WriteGridToConsole(positions, 5);
+      DiagnosticHelper.WriteToConsole(positions, 5);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ namespace Battleships19.Tests
       var shipLengths = new List<int> { 5, 4, 4, 4, 3, 2 };
       var positionGenerator = new RandomShipPositionGenerator(5);
       var positions = positionGenerator.Generate(shipLengths);
-      DiagnosticHelper.WriteGridToConsole(positions, 5);
+      DiagnosticHelper.WriteToConsole(positions, 5);
     }
 
 
@@ -58,7 +58,7 @@ namespace Battleships19.Tests
 
       var position = positionGenerator();
       stopwatch.Stop();
-      DiagnosticHelper.WriteGridToConsole(position, BoardSize);
+      DiagnosticHelper.WriteToConsole(position, BoardSize);
       Console.WriteLine($"{stopwatch.ElapsedMilliseconds} *** ");
     }
 

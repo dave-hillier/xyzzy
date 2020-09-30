@@ -4,11 +4,17 @@ using System.Linq;
 
 namespace Battleships19
 {
+  // Untested as it's not required for the spec, but it makes things easier to test when playing
   internal static class DiagnosticHelper
   {
-    public static void WriteGridToConsole(List<List<string>> shipPositions, int gridSize)
+    public static void WriteToConsole(List<List<string>> shipPositions, int gridSize)
     {
       WriteShipPositionsToConsole(shipPositions);
+      WriteGrid(shipPositions, gridSize);
+    }
+
+    private static void WriteGrid(List<List<string>> shipPositions, int gridSize)
+    {
       var headers = Columns.Get(gridSize).ToArray();
 
       var old = Console.ForegroundColor;
@@ -24,8 +30,7 @@ namespace Battleships19
         var cells = Enumerable.Range(0, gridSize).Select(c =>
         {
           var cell = $"{headers[c]}{r}";
-          return shipIndexes.ContainsKey(cell) ? 
-            shipIndexes[cell].ToString().PadLeft(2) : "  ";
+          return shipIndexes.ContainsKey(cell) ? shipIndexes[cell].ToString().PadLeft(2) : "  ";
         });
 
         Console.ForegroundColor = ConsoleColor.Green;

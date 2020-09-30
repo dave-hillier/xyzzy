@@ -4,6 +4,7 @@ namespace Battleships19
 {
   public static class Coordinates
   {
+    // Test the input for validity. Valid Battleships coordinates in the current board return true 
     public static bool IsValid(string input, int boardSize)
     {
       var rx = new Regex(@"([a-z]+)([0-9]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -20,6 +21,7 @@ namespace Battleships19
         row >= 0 && row < boardSize;
     }
 
+    // Convert from column, row tuple to a Battleships formatted coordinate
     public static string ToCoordinateString(this (int column, int row) tuple)
     {
       var (column, row) = tuple;

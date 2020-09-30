@@ -15,38 +15,47 @@ namespace Battleships19
     {
       this.boardSize = boardSize;
     }
-
+    
     public List<List<string>> Generate(IEnumerable<int> shipLengths)
     {
       var distinctLengths = shipLengths.OrderByDescending(k => k).GroupBy(l => l);
-      var result = new List<List<string>>();
-      foreach (var lengthGroup in distinctLengths)
+      var shipPositions = new List<List<string>>();
+      foreach (var shipLengthGroup in distinctLengths)
       {
-        int length = lengthGroup.Key;
-        var horizontalShips = from row in Enumerable.Range(0, boardSize)
-                              from column in Enumerable.Range(0, boardSize - (length - 1))
-                              select ShipFactory.Horizontal((column: column, row: row), length);
+        int length = shipLengthGroup.Key;
+        var allPossiblePositions = GetAllPossibleShipPositions(length, shipPositions);
 
-        var verticalShips = from row in Enumerable.Range(0, boardSize - (length - 1))
-                            from column in Enumerable.Range(0, boardSize)
-                            select ShipFactory.Vertical((column: column, row: row), length);
-
-        var allShipPositions = horizontalShips.Concat(verticalShips);
-        var allPossiblePositions = allShipPositions
-          .Where(possiblePosition => !result.Any(ship => ship.Any(possiblePosition.Contains)))
-          .ToArray();
-
-        foreach (var _ in lengthGroup)
+        foreach (var _ in shipLengthGroup)
         {
           var randomPickShip = Pick(allPossiblePositions);
-          result.Add(randomPickShip);
+          shipPositions.Add(randomPickShip);
 
+          // remove from possible positions
           allPossiblePositions = allPossiblePositions
             .Where(place => !place.Any(randomPickShip.Contains))
             .ToArray();
         }
       }
-      return result;
+      return shipPositions;
+    }
+
+    private List<string>[] GetAllPossibleShipPositions(int length, List<List<string>> shipPositions)
+    {
+      // calculate all possible positions for an empty board
+      var horizontalShips = from row in Enumerable.Range(0, boardSize)
+        from column in Enumerable.Range(0, boardSize - (length - 1))
+        select ShipFactory.Horizontal((column: column, row: row), length);
+
+      var verticalShips = from row in Enumerable.Range(0, boardSize - (length - 1))
+        from column in Enumerable.Range(0, boardSize)
+        select ShipFactory.Vertical((column: column, row: row), length);
+
+      var allShipPositions = horizontalShips.Concat(verticalShips);
+      
+      // remove any interesting with existing ships
+      return allShipPositions
+        .Where(possiblePosition => !shipPositions.Any(ship => ship.Any(possiblePosition.Contains)))
+        .ToArray();
     }
 
     private static List<string> Pick(List<string>[] allPossiblePositions)
